@@ -9,7 +9,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from models.calibration_schema import (
+from ..models.calibration_schema import (
     CalibrationData,
     OpticalCalibration,
     ReactionCalibration,
