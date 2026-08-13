@@ -80,6 +80,18 @@ class Station4FluorescencePoint(BaseModel):
     fluorescence_raw_au: float = Field(..., ge=0)
 
 
+class Station4FluorescenceOutput(BaseModel):
+    """Output model for Station 4: Fluorescence."""
+
+    station: int = Field(default=4)
+    name: str = Field(default="Fluorescence")
+    status: str = Field(..., min_length=1)
+    timestamp_start: datetime
+    timestamp_end: datetime
+    duration_s: float = Field(..., ge=0)
+    points: int = Field(..., ge=0)
+
+
 class Station5CleanupOutput(BaseModel):
     """Output model for Station 5: Cleanup.
     
