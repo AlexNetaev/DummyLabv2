@@ -1,0 +1,32 @@
+{
+  "version": "orbus_dummy_v2",
+  "optical": {
+    "fluorophore": "Fluorescein",
+    "pka": 6.4,
+    "epsilon_490nm": 76900.0,
+    "epsilon_450nm": 11500.0,
+    "quantum_yield_ref": 0.93,
+    "t_ref_c": 25.0,
+    "ea_quench_j_per_mol": 12500.0,
+    "k_bleach_per_s": 0.0008,
+    "excitation_power_mw": 2.5,
+    "pathlength_cm": 1.0,
+    "k_sv_fe2": 0.035,
+    "autofluorescence_blank_au": 3.2,
+    "detector_dark_au": 0.5,
+    "detector_gain": 1.0,
+    "fluorescence_scale_au_per_um": 5.0,
+    "spectral_overlap": {
+      "scatter_490nm_fraction": 0.02,
+      "raman_water_fraction": 0.005
+    }
+  },
+  "reaction": {
+    "ph_start": 7.4,
+    "delta_ph_max": 2.0,
+    "k_redox_per_s": 0.08,
+    "k_ph_per_s": 0.06,
+    "fe2_max_um_per_mm_fecl3": 500.0,
+    "activation_energy_j_per_mol": 25000.0
+  }
+}
