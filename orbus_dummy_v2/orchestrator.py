@@ -14,6 +14,7 @@ from .io import queue_manager
 from .io.json_writer import write_json_atomic
 from .io.measurement_merger import merge_measurements
 from .io.protocol_builder import build_and_write_protocol
+from .io.status_writer import set_running, set_station, set_idle, set_estop, set_error
 from .physics.noise import create_rng
 from .stations.base_station import EStopTriggered
 from .stations.station1_dosing import Station1Dosing
@@ -60,36 +61,50 @@ def execute_job(job_path: Path) -> None:
         logger.info(f"Output-Verzeichnis: {output_dir}")
         logger.info(f"Kalibrierung geladen: {calibration.version}")
         
+        # Status auf RUNNING setzen
+        set_running(job, output_dir)
+        
     except Exception as e:
         logger.error(f"Fehler bei der Vorbereitung: {e}")
         queue_manager.quarantine_job(job_path, config.FAILED_QUEUE_DIR)
         return
     
     # 3. Ausführung (Try-Block für alle Stationen)
+    stations_completed = []
     try:
         # Station 1: Dosing
         logger.info("Starte Station 1: Dosing")
+        set_station(job, 1, "Dosing", stations_completed, output_dir)
         station_logs["station_1_dosing"] = Station1Dosing(job, output_dir, calibration, rng).run()
+        stations_completed.append("station_1_dosing")
         time.sleep(config.STATION_PAUSE_S)
         
         # Station 2: Mixing
         logger.info("Starte Station 2: Mixing")
+        set_station(job, 2, "Mixing", stations_completed, output_dir)
         station_logs["station_2_mixing"] = Station2Mixing(job, output_dir, calibration, rng).run()
+        stations_completed.append("station_2_mixing")
         time.sleep(config.STATION_PAUSE_S)
         
         # Station 3: Reaction/Temperature
         logger.info("Starte Station 3: Reaction")
+        set_station(job, 3, "Reaction", stations_completed, output_dir)
         station_logs["station_3_reaction"] = Station3Reaction(job, output_dir, calibration, rng).run()
+        stations_completed.append("station_3_reaction")
         time.sleep(config.STATION_PAUSE_S)
         
         # Station 4: Fluorescence
         logger.info("Starte Station 4: Fluorescence")
+        set_station(job, 4, "Fluorescence", stations_completed, output_dir)
         station_logs["station_4_fluorescence"] = Station4Fluorescence(job, output_dir, calibration, rng).run()
+        stations_completed.append("station_4_fluorescence")
         time.sleep(config.STATION_PAUSE_S)
         
         # Station 5: Cleanup
         logger.info("Starte Station 5: Cleanup")
+        set_station(job, 5, "Cleanup", stations_completed, output_dir)
         station_logs["station_5_cleanup"] = Station5Cleanup(job, output_dir, calibration, rng).run()
+        stations_completed.append("station_5_cleanup")
         time.sleep(config.STATION_PAUSE_S)
         
         # Measurements mergen
@@ -103,6 +118,10 @@ def execute_job(job_path: Path) -> None:
         # Job archivieren
         logger.info("Archiviere Job...")
         queue_manager.archive_job(job_path, config.PROCESSED_QUEUE_DIR, job.job_id)
+        
+        # Status auf IDLE setzen
+        set_idle(last_job_id=job.job_id, last_job_status="OK")
+        
         logger.info(f"Job {job.job_id} erfolgreich abgeschlossen.")
         
     except EStopTriggered as e:
@@ -119,6 +138,9 @@ def execute_job(job_path: Path) -> None:
             )
         except Exception as proto_err:
             logger.error(f"Fehler beim Schreiben des E-Stop-Protokolls: {proto_err}")
+        
+        # Status auf ESTOP setzen
+        set_estop(job_id=job.job_id)
         
         # Job in Failed-Queue verschieben
         queue_manager.quarantine_job(job_path, config.FAILED_QUEUE_DIR)
@@ -137,6 +159,9 @@ def execute_job(job_path: Path) -> None:
             )
         except Exception as proto_err:
             logger.error(f"Fehler beim Schreiben des Error-Protokolls: {proto_err}")
+        
+        # Status auf ERROR setzen
+        set_error(job_id=job.job_id, error_message=str(e))
         
         # Job in Failed-Queue verschieben
         queue_manager.quarantine_job(job_path, config.FAILED_QUEUE_DIR)
