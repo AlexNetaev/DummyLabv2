@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrbusSim Dummy V2 - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header__content">
+            <h1 class="header__title">OrbusSim Dummy V2</h1>
+            <p class="header__subtitle">Standalone dummy hardware interface — 5-station process carousel</p>
+            <div id="conn-indicator" class="conn-indicator">
+                <span class="conn-indicator__dot"></span>
+                <span id="conn-label" class="conn-indicator__label">live</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Panel D: Carousel Visualizer (Hero) -->
+        <section class="panel panel--hero" id="panel-d">
+            <h2 class="panel__title">Carousel Visualizer</h2>
+            <div id="carousel" class="carousel">
+                <div class="carousel__hub">
+                    <div id="hub-state" class="hub-state">IDLE</div>
+                </div>
+                <div class="carousel__station" data-station="1">
+                    <div class="station-card station-card--dosing">
+                        <div class="station-card__name">Dosing</div>
+                        <div class="station-card__sub">Dispense reagents</div>
+                    </div>
+                </div>
+                <div class="carousel__station" data-station="2">
+                    <div class="station-card station-card--mixing">
+                        <div class="station-card__name">Mixing</div>
+                        <div class="station-card__sub">Homogenize</div>
+                    </div>
+                </div>
+                <div class="carousel__station" data-station="3">
+                    <div class="station-card station-card--reaction">
+                        <div class="station-card__name">Reaction</div>
+                        <div class="station-card__sub">Heat · Incubate</div>
+                    </div>
+                </div>
+                <div class="carousel__station" data-station="4">
+                    <div class="station-card station-card--fluorescence">
+                        <div class="station-card__name">Fluorescence</div>
+                        <div class="station-card__sub">Kinetic readout</div>
+                    </div>
+                </div>
+                <div class="carousel__station" data-station="5">
+                    <div class="station-card station-card--cleanup">
+                        <div class="station-card__name">Cleanup</div>
+                        <div class="station-card__sub">Rinse · Purge</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel A: Telemetry -->
+        <section class="panel panel--telemetry" id="panel-a">
+            <h2 class="panel__title">Telemetry</h2>
+            <div class="readout-list">
+                <div class="readout-item">
+                    <dt class="readout-item__label">Carousel state</dt>
+                    <dd id="state-value" class="readout-item__value">IDLE</dd>
+                </div>
+                <div class="readout-item">
+                    <dt class="readout-item__label">Active job</dt>
+                    <dd id="job-id-value" class="readout-item__value">-</dd>
+                </div>
+                <div class="readout-item">
+                    <dt class="readout-item__label">Current station</dt>
+                    <dd id="current-station-value" class="readout-item__value">-</dd>
+                </div>
+                <div class="readout-item">
+                    <dt class="readout-item__label">Temperature</dt>
+                    <dd id="temp-value" class="readout-item__value">-- °C</dd>
+                </div>
+                <div class="readout-item">
+                    <dt class="readout-item__label">Fluorescence</dt>
+                    <dd id="fluor-value" class="readout-item__value">-- a.u.</dd>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-label">Station progress</div>
+                <div class="progress-bar">
+                    <div id="station-progress-bar" class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel B: Queue Observer -->
+        <section class="panel panel--queue" id="panel-b">
+            <h2 class="panel__title">Queue Observer</h2>
+            <ul id="queue-list" class="queue-list">
+                <!-- Queue items will be inserted here -->
+            </ul>
+            <div id="queue-empty" class="queue-empty">queue is empty</div>
+        </section>
+
+        <!-- Panel C: E-Stop Control -->
+        <section class="panel panel--estop" id="panel-c">
+            <h2 class="panel__title">E-Stop Control</h2>
+            <div class="estop-status-container">
+                <span class="estop-status-label">Status:</span>
+                <span id="estop-status" class="estop-status estop-status--nominal">nominal</span>
+            </div>
+            <button id="btn-estop-activate" class="btn btn--estop">Trigger E-Stop</button>
+            <button id="btn-estop-release" class="btn btn--ghost">Release</button>
+            <div id="estop-feedback" class="feedback-text"></div>
+        </section>
+
+        <!-- Panel F: Live Charts -->
+        <section class="panel panel--charts" id="panel-f">
+            <h2 class="panel__title">Live Charts</h2>
+            <div id="charts-hint" class="charts-hint">no job data yet</div>
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <div class="chart-legend">Temperature (°C)</div>
+                    <canvas id="chart-temperature" class="chart-canvas"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-legend">Fluorescence (a.u.)</div>
+                    <canvas id="chart-fluorescence" class="chart-canvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel E: Submit Job -->
+        <section class="panel panel--submit" id="panel-e">
+            <h2 class="panel__title">Submit Job</h2>
+            <textarea id="job-textarea" class="job-textarea" spellcheck="false">{
+  "job_id": "job-manual-0001",
+  "cycle_id": "Cycle_001",
+  "parameters": {
+    "reagents": [
+      {"reagent_name": "ascorbic_acid", "volume_ul": 500.0, "concentration_mm": 25.0},
+      {"reagent_name": "fecl3", "volume_ul": 100.0, "concentration_mm": 1.0},
+      {"reagent_name": "h2o2", "volume_ul": 200.0, "concentration_mm": 50.0},
+      {"reagent_name": "fluorescein", "volume_ul": 100.0, "concentration_mm": 0.01},
+      {"reagent_name": "phosphate_buffer", "volume_ul": 100.0, "concentration_mm": 50.0}
+    ],
+    "mixing_speed_rpm": 600,
+    "mixing_time_s": 15.0,
+    "target_temperature_c": 37.0,
+    "heating_time_s": 30.0,
+    "measurement_interval_ms": 500,
+    "fluorescence_duration_s": 60.0,
+    "excitation_wavelength_nm": 490,
+    "emission_wavelength_nm": 520
+  },
+  "station_4_action": "FLUORESCENCE"
+}</textarea>
+            <button id="btn-submit-job" class="btn btn--submit">Submit Job</button>
+            <div id="job-submit-feedback" class="feedback-text"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>orbus-sim-dummy-v2 · dummy hardware, real physics</p>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
