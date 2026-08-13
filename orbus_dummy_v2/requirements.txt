@@ -1,0 +1,5 @@
+# OrbusSim Dummy V2 - Minimal Dependencies
+
+pydantic>=2.0
+python-dotenv
+pytest
