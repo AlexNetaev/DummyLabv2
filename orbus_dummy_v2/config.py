@@ -52,6 +52,7 @@ WORKSPACE_ROOT = resolve_workspace_root()
 HARDWARE_QUEUE_DIR = WORKSPACE_ROOT / "03_Hardware_Queue"
 RESEARCH_CYCLES_DIR = WORKSPACE_ROOT / "02_Research_Cycles"
 SYSTEM_DIR = WORKSPACE_ROOT / "00_System"
+STATIC_DIR = Path(__file__).parent.parent / "static"
 
 # Define special files
 ESTOP_FLAG_FILE = SYSTEM_DIR / "ESTOP.flag"
