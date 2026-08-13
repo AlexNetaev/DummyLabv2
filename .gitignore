@@ -1,44 +1,6 @@
 ```
-# Environment variables
-.env
-.env.local
-*.env.*
-
-# Python specific
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
-env/
-venv/
-.venv/
-.ENV
-.python-version
-.pytest_cache/
-.mypy_cache/
-.coverage
-coverage/
-
-# Build and distribution artifacts  
-dist/
-build/
-*.egg-info/
-.sconsign.dblite
-._build/
-buck-out/
-build/
-cmake-build-*/
-
-# Logs
-*.log
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 ```
