@@ -1,107 +1,37 @@
 ```
-# Python
-__pycache__/
+# Compiled Python files
 *.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
+__pycache__/
+
+# Virtual environments
 .venv/
-.ENV
-.ENV.local
-.env
-.env.local
-.env.*
-.env.local.*
-.python-version
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/modules/
-.pytest_cache/
-.mypy_cache/
-.hypothesis/
-
-# Generated / built files
-dist/
-build/
-*.egg
-*.egg-info/
-.eggs/
-.installed.cfg
-lib/
-lib64/
-parts/
-sdist/
-develop-eggs/
-bin/
-var/
-.wafpickle-*
-*.out
-*.exe
-*.dll
-*.so
-*.dylib
-*.class
-
-# IDE / editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
+venv/
+env/
 
 # Testing
+.pytest_cache/
 .coverage
+coverage/
 htmlcov/
-.coverage.*
-.cov
-coverage.xml
 
-# Compression
-*.zip
-*.tar.gz
-*.tgz
-*.tar.bz2
-*.tbz2
-*.tar.xz
-*.txz
-*.gz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.jar
-*.war
-*.par
-*.dep
-*.dump
-*.dmp
-*.log.*
+# Logs
+*.log
 
-# Local config
-local/
-secret/
-secrets/
-config/local.*
-config/development.*
+# Temporary files
+*.tmp
+*.swp
+*.swo
 
-# OS generated files
+# Environment files
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# OS specific
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 ```
