@@ -505,12 +505,18 @@
         elements.btnEstopRelease.addEventListener('click', handleEstopRelease);
         elements.btnSubmitJob.addEventListener('click', handleSubmitJob);
         
+        // Ring-Progress bei Initialisierung zurücksetzen
+        if (elements.ringProgress) {
+            elements.ringProgress.style.strokeDasharray = '879.65';
+            elements.ringProgress.style.strokeDashoffset = '879.65';
+        }
+        
         // Start pollers
         pollState();
         pollQueue();
         pollTelemetry();
         
-        setInterval(pollState, 150) // Schnelleres Polling für bessere Station-Erkennung (von 250ms auf 150ms reduziert);
+        setInterval(pollState, 150); // Schnelleres Polling für bessere Station-Erkennung (von 250ms auf 150ms reduziert)
         setInterval(pollQueue, 2000);
         setInterval(pollTelemetry, 3000);
         

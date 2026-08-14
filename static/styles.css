@@ -156,7 +156,7 @@ body {
 .carousel {
     position: relative;
     width: 100%;
-    height: 350px;
+    height: 400px;
     margin-top: 2rem;
 }
 
@@ -234,20 +234,43 @@ body {
 /* Compact Pentagon Layout - stations closer together */
 .carousel__station {
     position: absolute;
-    /* transform entfernt für absolute Pixel-Positionen */
+    transform: translate(-50%, -50%);
     transition: all 0.3s ease;
     z-index: 5;
 }
 
 /* Kompakteres Pentagon-Layout mit absoluten Positionen (passend zum SVG-Ring) */
 /* SVG viewBox: 0 0 400 400, Ring-Zentrum: (200, 200), Radius: 140px */
-/* Stationen-Positionen basieren auf exakten SVG-Koordinaten, zentriert im Carousel-Container */
-/* Carousel ist 350px hoch, SVG ist 400px - wir zentrieren bei left: 50% (200px vom Container-Zentrum) */
-.carousel__station[data-station="1"] { left: calc(50% + 0px); top: 60px; }   /* 0° (oben) */
-.carousel__station[data-station="2"] { left: calc(50% + 134px); top: 157px; }  /* 72° */
-.carousel__station[data-station="3"] { left: calc(50% + 82px); top: 318px; }  /* 144° */
-.carousel__station[data-station="4"] { left: calc(50% - 82px); top: 318px; }  /* 216° */
-.carousel__station[data-station="5"] { left: calc(50% - 134px); top: 157px; }   /* 288° */
+/* Carousel ist jetzt 400px hoch - CSS-Pixelwerte stimmen direkt mit SVG-Koordinaten überein */
+/* Station 1: oben (0°) */
+.carousel__station[data-station="1"] {
+    left: 50%;
+    top: 60px;
+}
+
+/* Station 2: rechts oben (72°) */
+.carousel__station[data-station="2"] {
+    left: calc(50% + 133px);
+    top: 157px;
+}
+
+/* Station 3: rechts unten (144°) */
+.carousel__station[data-station="3"] {
+    left: calc(50% + 82px);
+    top: 313px;
+}
+
+/* Station 4: links unten (216°) */
+.carousel__station[data-station="4"] {
+    left: calc(50% - 82px);
+    top: 313px;
+}
+
+/* Station 5: links oben (288°) */
+.carousel__station[data-station="5"] {
+    left: calc(50% - 133px);
+    top: 157px;
+}
 
 .station-card {
     background: var(--bg-tertiary);
@@ -280,7 +303,7 @@ body {
 
 /* Active State Glow */
 .carousel__station.is-active .station-card {
-    transform: scale(1.06);
+    transform: translate(-50%, -50%) scale(1.06);
     box-shadow: 0 0 20px currentColor;
 }
 
