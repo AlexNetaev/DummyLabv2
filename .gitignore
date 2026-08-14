@@ -1,5 +1,42 @@
 ```
-# Static build artifacts
-static/*.js
-static/*.css
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.out
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+target/
+.gradle/
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# System files
+.DS_Store
+Thumbs.db
 ```
