@@ -1,0 +1,15 @@
+{
+  "state": "ESTOP",
+  "job_id": "test-job-001",
+  "cycle_id": null,
+  "current_station": null,
+  "current_station_name": null,
+  "stations_completed": [],
+  "output_dir": null,
+  "last_job_id": null,
+  "last_job_status": null,
+  "last_error": null,
+  "timestamp": "2026-08-14T08:46:07.538156Z",
+  "simulator_name": "OrbusSim Dummy V2",
+  "simulator_version": "2.0.0"
+}
