@@ -47,7 +47,7 @@
 
     /**
      * State Poller (Panel A + Panel D)
-     * Polls GET /api/state every 1000ms
+     * Polls GET /api/state every 250ms for faster station transition detection
      */
     async function pollState() {
         try {
@@ -475,7 +475,7 @@
         pollQueue();
         pollTelemetry();
         
-        setInterval(pollState, 1000);
+        setInterval(pollState, 250) // Schnelleres Polling für bessere Station-Erkennung;
         setInterval(pollQueue, 2000);
         setInterval(pollTelemetry, 3000);
         

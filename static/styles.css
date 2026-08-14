@@ -160,6 +160,25 @@ body {
     margin-top: 2rem;
 }
 
+/* Verbindungsring hinter den Stationen */
+.carousel__track {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    border: 2px dashed var(--border-color);
+    border-radius: 50%;
+    z-index: 1;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel.is-estop .carousel__track {
+    border-color: var(--error);
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.4);
+}
+
 .carousel__hub {
     position: absolute;
     left: 50%;
@@ -192,14 +211,15 @@ body {
     position: absolute;
     transform: translate(-50%, -50%);
     transition: all 0.3s ease;
+    z-index: 5;
 }
 
-/* Pentagon Positions */
-.carousel__station[data-station="1"] { left: 50%; top: 8%; }
-.carousel__station[data-station="2"] { left: 90%; top: 40%; }
-.carousel__station[data-station="3"] { left: 74%; top: 90%; }
-.carousel__station[data-station="4"] { left: 26%; top: 90%; }
-.carousel__station[data-station="5"] { left: 10%; top: 40%; }
+/* Kompakteres Pentagon-Layout (Radius reduziert) */
+.carousel__station[data-station="1"] { left: 50%; top: 14%; }
+.carousel__station[data-station="2"] { left: 86%; top: 36%; }
+.carousel__station[data-station="3"] { left: 78%; top: 86%; }
+.carousel__station[data-station="4"] { left: 22%; top: 86%; }
+.carousel__station[data-station="5"] { left: 14%; top: 36%; }
 
 .station-card {
     background: var(--bg-tertiary);
