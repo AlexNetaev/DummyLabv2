@@ -234,17 +234,19 @@ body {
 /* Compact Pentagon Layout - stations closer together */
 .carousel__station {
     position: absolute;
-    transform: translate(-50%, -50%);
+    /* transform entfernt für absolute Pixel-Positionen */
     transition: all 0.3s ease;
     z-index: 5;
 }
 
-/* Kompakteres Pentagon-Layout (Radius reduziert von ~140 auf ~115) */
-.carousel__station[data-station="1"] { left: 50%; top: 18%; }
-.carousel__station[data-station="2"] { left: 82%; top: 38%; }
-.carousel__station[data-station="3"] { left: 74%; top: 82%; }
-.carousel__station[data-station="4"] { left: 26%; top: 82%; }
-.carousel__station[data-station="5"] { left: 18%; top: 38%; }
+/* Kompakteres Pentagon-Layout mit absoluten Positionen (passend zum SVG-Ring) */
+/* SVG viewBox: 0 0 400 400, Ring-Zentrum: (200, 200), Radius: 140px */
+/* Stationen-Positionen basieren auf exakten SVG-Koordinaten */
+.carousel__station[data-station="1"] { left: 200px; top: 60px; }   /* 0° (oben) */
+.carousel__station[data-station="2"] { left: 334px; top: 157px; }  /* 72° */
+.carousel__station[data-station="3"] { left: 282px; top: 318px; }  /* 144° */
+.carousel__station[data-station="4"] { left: 118px; top: 318px; }  /* 216° */
+.carousel__station[data-station="5"] { left: 66px; top: 157px; }   /* 288° */
 
 .station-card {
     background: var(--bg-tertiary);
