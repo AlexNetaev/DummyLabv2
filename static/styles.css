@@ -152,7 +152,7 @@ body {
     letter-spacing: 0.05em;
 }
 
-/* Carousel (Pentagon Layout) */
+/* Carousel (Compact Radial Layout) */
 .carousel {
     position: relative;
     width: 100%;
@@ -160,25 +160,49 @@ body {
     margin-top: 2rem;
 }
 
-/* Verbindungsring hinter den Stationen */
-.carousel__track {
+/* SVG Ring Background */
+.carousel__ring-svg {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
-    border: 2px dashed var(--border-color);
-    border-radius: 50%;
+    width: 400px;
+    height: 400px;
     z-index: 1;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: none;
 }
 
-.carousel.is-estop .carousel__track {
-    border-color: var(--error);
-    box-shadow: 0 0 25px rgba(255, 68, 68, 0.4);
+.carousel__ring-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 2;
+    stroke-dasharray: 8 8;
 }
 
+.carousel__ring-progress {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
+}
+
+.carousel.is-estop .carousel__ring-progress {
+    stroke: var(--error);
+}
+
+.carousel__active-indicator {
+    fill: var(--cyan);
+    filter: drop-shadow(0 0 8px var(--cyan));
+    transition: all 0.3s ease;
+}
+
+.carousel.is-estop .carousel__active-indicator {
+    fill: var(--error);
+    filter: drop-shadow(0 0 8px var(--error));
+}
+
+/* Carousel Hub */
 .carousel__hub {
     position: absolute;
     left: 50%;
@@ -207,6 +231,7 @@ body {
     text-align: center;
 }
 
+/* Compact Pentagon Layout - stations closer together */
 .carousel__station {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -214,12 +239,12 @@ body {
     z-index: 5;
 }
 
-/* Kompakteres Pentagon-Layout (Radius reduziert) */
-.carousel__station[data-station="1"] { left: 50%; top: 14%; }
-.carousel__station[data-station="2"] { left: 86%; top: 36%; }
-.carousel__station[data-station="3"] { left: 78%; top: 86%; }
-.carousel__station[data-station="4"] { left: 22%; top: 86%; }
-.carousel__station[data-station="5"] { left: 14%; top: 36%; }
+/* Kompakteres Pentagon-Layout (Radius reduziert von ~140 auf ~115) */
+.carousel__station[data-station="1"] { left: 50%; top: 18%; }
+.carousel__station[data-station="2"] { left: 82%; top: 38%; }
+.carousel__station[data-station="3"] { left: 74%; top: 82%; }
+.carousel__station[data-station="4"] { left: 26%; top: 82%; }
+.carousel__station[data-station="5"] { left: 18%; top: 38%; }
 
 .station-card {
     background: var(--bg-tertiary);

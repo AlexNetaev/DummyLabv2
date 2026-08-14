@@ -26,8 +26,13 @@
         <section class="panel panel--hero" id="panel-d">
             <h2 class="panel__title">Carousel Visualizer</h2>
             <div id="carousel" class="carousel">
-                <!-- Verbindungsring -->
-                <div class="carousel__track"></div>
+                <!-- Verbindungsring als SVG -->
+                <svg class="carousel__ring-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="carousel__ring-bg" cx="200" cy="200" r="140" />
+                    <circle class="carousel__ring-progress" cx="200" cy="200" r="140" stroke-dasharray="879.65" stroke-dashoffset="0" />
+                    <!-- Active indicator dot -->
+                    <circle id="active-indicator" class="carousel__active-indicator" cx="200" cy="60" r="8" />
+                </svg>
                 <div class="carousel__hub">
                     <div id="hub-state" class="hub-state">IDLE</div>
                 </div>

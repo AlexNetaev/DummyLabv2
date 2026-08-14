@@ -33,7 +33,9 @@
         jobTextarea: document.getElementById('job-textarea'),
         btnSubmitJob: document.getElementById('btn-submit-job'),
         jobSubmitFeedback: document.getElementById('job-submit-feedback'),
-        carousel: document.getElementById('carousel')
+        carousel: document.getElementById('carousel'),
+        activeIndicator: document.getElementById('active-indicator'),
+        ringProgress: document.querySelector('.carousel__ring-progress')
     };
 
     // Station Names
@@ -125,6 +127,9 @@
             if (activeStation) {
                 activeStation.classList.add('is-active');
             }
+            
+            // Update active indicator position on the ring
+            updateActiveIndicatorPosition(data.current_station);
         }
         
         // Update carousel ring for E-Stop
@@ -133,6 +138,36 @@
         } else {
             elements.carousel.classList.remove('is-estop');
         }
+    }
+
+    /**
+     * Update active indicator position on the SVG ring
+     * Station positions: 1=0°, 2=72°, 3=144°, 4=216°, 5=288° (clockwise from top)
+     */
+    function updateActiveIndicatorPosition(station) {
+        if (!elements.activeIndicator || !elements.ringProgress) return;
+        
+        const radius = 140;
+        const centerX = 200;
+        const centerY = 200;
+        
+        // Calculate angle: station 1 at top (-90°), then clockwise
+        const angleDeg = ((station - 1) * 72) - 90;
+        const angleRad = (angleDeg * Math.PI) / 180;
+        
+        // Calculate position on circle
+        const x = centerX + radius * Math.cos(angleRad);
+        const y = centerY + radius * Math.sin(angleRad);
+        
+        // Update indicator position
+        elements.activeIndicator.setAttribute('cx', x);
+        elements.activeIndicator.setAttribute('cy', y);
+        
+        // Update progress ring (show progress up to current station)
+        const circumference = 2 * Math.PI * radius;
+        const progress = station / 5;
+        const offset = circumference * (1 - progress);
+        elements.ringProgress.style.strokeDashoffset = offset;
     }
 
     function updateProgressBar(data) {
@@ -475,7 +510,7 @@
         pollQueue();
         pollTelemetry();
         
-        setInterval(pollState, 250) // Schnelleres Polling für bessere Station-Erkennung;
+        setInterval(pollState, 150) // Schnelleres Polling für bessere Station-Erkennung (von 250ms auf 150ms reduziert);
         setInterval(pollQueue, 2000);
         setInterval(pollTelemetry, 3000);
         
