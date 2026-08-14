@@ -136,7 +136,7 @@ def build_and_write_protocol(
                 status=log_data.get("status", "UNKNOWN"),
                 timestamp_start=log_data.get("timestamp_start"),
                 timestamp_end=log_data.get("timestamp_end"),
-                duration_s=log_data.get("duration_s"),
+                duration_s=max(0.0, log_data.get("duration_s", 0.0)),  # Defensive: niemals negativ
                 details=log_data.get("details", {}),
             )
     
